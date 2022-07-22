@@ -1,0 +1,13 @@
+<yandex>
+    <zookeeper-servers>
+        <node>
+            <host>zk1</host>
+            <port>2181</port>
+        </node>
+    </zookeeper-servers>
+    <macros>
+        <shard>01</shard>
+        <replica>01</replica>
+    </macros>
+</yandex>
+
