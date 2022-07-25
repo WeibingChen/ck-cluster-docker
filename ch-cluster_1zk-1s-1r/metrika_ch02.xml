@@ -1,0 +1,25 @@
+<yandex>
+    <clickhouse_remote_servers>
+        <shard_1>
+            <node>
+                <host>ch01</host>
+                <port>9000</port>
+            </node>
+            <node>
+                <host>ch02</host>
+                <port>9000</port>
+            </node>
+        </shard_1>
+    </clickhouse_remote_servers>
+    <zookeeper-servers>
+        <node>
+            <host>zk1</host>
+            <port>2181</port>
+        </node>
+    </zookeeper-servers>
+    <macros>
+        <shard>01</shard>
+        <replica>ch02</replica>
+    </macros>
+    <database_atomic_delay_before_drop_table_sec>60</database_atomic_delay_before_drop_table_sec>  
+</yandex>

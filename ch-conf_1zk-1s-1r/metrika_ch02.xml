@@ -7,7 +7,7 @@
     </zookeeper-servers>
     <macros>
         <shard>01</shard>
-        <replica>02</replica>
+        <replica>ch02</replica>
     </macros>
 </yandex>
 

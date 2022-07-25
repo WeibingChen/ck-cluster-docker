@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+  zookeeper:
+    image: zookeeper:3.6
+    hostname: zk1
+    container_name: ch-zk
+    ports:
+      - "12181:2181"
+    networks:
+      ch-cluster:
+        ipv4_address: 172.20.1.2
+
+  ch01:
+    image: yandex/clickhouse-server:${CLICKHOUSE_VERSION:-20.11}
+    ports:
+      - "8124:8123"
+    hostname: ch01
+    container_name: ch-server-ch01
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    networks:
+      ch-cluster:
+        ipv4_address: 172.20.1.4
+    extra_hosts:
+      - "zk1:172.20.1.2"
+      - "ch02:172.20.1.5"
+    volumes:
+      - ./metrika_ch01.xml:/etc/metrika.xml
+    depends_on:
+      - "zookeeper"
+
+  ch02:
+    image: yandex/clickhouse-server:${CLICKHOUSE_VERSION:-20.11}
+    ports:
+      - "8125:8123"
+    hostname: ch02
+    container_name: ch-server-ch02
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    networks:
+      ch-cluster:
+        ipv4_address: 172.20.1.5
+    extra_hosts:
+      - "zk1:172.20.1.2"
+      - "ch01:172.20.1.4"
+    volumes:
+      - ./metrika_ch02.xml:/etc/metrika.xml
+    depends_on:
+      - "zookeeper"
+
+networks:
+  ch-cluster:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.1.0/16
+
